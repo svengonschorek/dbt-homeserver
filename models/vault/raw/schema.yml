@@ -1,0 +1,8 @@
+version: 2
+
+models:
+  - name: hub_crypto_payin
+    description: Hub for payins to crypto platforms or wallets.
+  
+  - name: sat_crypto_payin
+    description: Satellite for payins to crypto platforms or wallets.

@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: binance
+    schema: source
+    tables:
+      - name: binance_payins
+        description: Pay-ins to the binance account.

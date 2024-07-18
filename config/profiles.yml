@@ -1,0 +1,11 @@
+
+dwh:
+  outputs:
+    prod:
+      type: clickhouse
+      host: "{{ env_var('HOST') }}"
+      port: "{{ env_var('PORT') | int }}"
+      schema: vault_raw
+      user: "{{ env_var('USER') }}"
+      password: "{{ env_var('PASSWORD') }}"
+  target: prod
