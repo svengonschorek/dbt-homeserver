@@ -18,6 +18,7 @@ with binance_orders_spot as (
 base as (
 
     select
+        *,
         concat(
             'binance_',
             lower(side),
@@ -36,8 +37,7 @@ base as (
                 type
             order by
                 trading_total
-        ) as r,
-        *
+        ) as r
     from binance_orders_spot
     where status = 'FILLED'
 
