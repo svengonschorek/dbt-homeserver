@@ -10,5 +10,9 @@ sources:
         description: Order from the binance spot account.
       - name: binance_trades_spot
         description: Trades from the binance spot account.
+      - name: binance_trades_futures
+        description: Trades from binance futures account.
       - name: binance_transactions_spot
         description: Transactions on the binance spot account
+      - name: binance_transactions_futures
+        description: Transactions on the binance transaction account
