@@ -20,7 +20,8 @@ base as (
     select
         *,
         concat(
-            'binance_',
+            'binance',
+            '_',
             lower(side),
             '_',
             toUnixTimestamp(order_utc_at),
@@ -53,6 +54,8 @@ final as (
         toDateTime(now(), 'Europe/Berlin') as load_dts,
         -- properties
         toDateTime(b.order_utc_at, 'Europe/Berlin') as order_at,
+        'binance' as platform,
+        'spot' as wallet,
         b.side,
         b.pair,
         b.type,

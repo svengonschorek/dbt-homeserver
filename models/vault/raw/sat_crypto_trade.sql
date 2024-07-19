@@ -20,13 +20,13 @@ base as (
     select
         *,
         concat(
-            'binance_',
+            'binance',
             '_',
-            side,
+            lower(side),
             '_',
             toUnixTimestamp(trade_utc_at),
             '_',
-            pair
+            lower(pair)
         ) as unique_key,
         row_number() over (
             partition by
@@ -50,6 +50,8 @@ final as (
         toDateTime(now(), 'Europe/Berlin') as load_dts,
         -- properties
         toDateTime(b.trade_utc_at, 'Europe/Berlin') as order_at,
+        'binance' as platform,
+        'spot' as wallet,
         b.side,
         b.pair,
         toDecimal64(regexpExtract(b.amount, '(\\d+).(\\d+)', 0), 8) as trade_amount,

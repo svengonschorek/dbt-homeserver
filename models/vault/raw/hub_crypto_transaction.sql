@@ -1,15 +1,15 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'pk_crypto_trade'
+        order_by = 'pk_crypto_transaction'
     )
 }}
 
 -- select data from sources
 -----------------------------------------------
-with binance_trades_spot as (
+with binance_transactions_spot as (
 
-    select * from {{ source('binance', 'binance_trades_spot') }}
+    select * from {{ source('binance', 'binance_transactions_spot') }}
 
 ),
 
@@ -21,21 +21,24 @@ base as (
         concat(
             'binance',
             '_',
-            lower(side),
+            lower(replace(account, ' ', '_')),
             '_',
-            toUnixTimestamp(trade_utc_at),
+            lower(coin),
             '_',
-            lower(pair)
+            lower(replace(operation, ' ', '_')),
+            '_',
+            toUnixTimestamp(transaction_utc_at)
         ) as unique_key,
         row_number() over (
             partition by
-                side,
-                trade_utc_at,
-                pair
+                account,
+                coin,
+                operation,
+                transaction_utc_at
             order by
-                amount
+                change
         ) as r
-    from binance_trades_spot
+    from binance_transactions_spot
 
 ),
 
@@ -43,7 +46,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_trade,
+        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_transaction,
         concat(unique_key, '_', r) as bk_crypto_trade,
         -- metadata
         '{{ invocation_id }}' as record_source,

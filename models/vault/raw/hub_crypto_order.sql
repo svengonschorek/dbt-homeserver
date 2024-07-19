@@ -19,7 +19,8 @@ base as (
 
     select
         concat(
-            'binance_',
+            'binance',
+            '_',
             lower(side),
             '_',
             toUnixTimestamp(order_utc_at),

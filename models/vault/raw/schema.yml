@@ -9,6 +9,9 @@ models:
 
   - name: hub_crypto_trade
     description: Hub for trades in crypto platforms.
+
+  - name: hub_crypto_transaction
+    description: Hub for transactions on crypto wallets.
   
   - name: sat_crypto_payin
     description: Satellite for payins to crypto platforms or wallets.
@@ -18,3 +21,6 @@ models:
 
   - name: sat_crypto_trade
     description: Satellite for trades in crypto platforms.
+
+  - name: sat_crypto_transaction
+    description: Satellite for transactions on crypto wallets.
