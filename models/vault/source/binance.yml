@@ -7,4 +7,6 @@ sources:
       - name: binance_payins
         description: Pay-ins to the binance account.
       - name: binance_orders_spot
-        description: Order from the binance account.
+        description: Order from the binance spot account.
+      - name: binance_trades_spot
+        description: Trades from the binance spot account.

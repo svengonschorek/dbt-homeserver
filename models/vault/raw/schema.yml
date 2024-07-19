@@ -6,9 +6,15 @@ models:
   
   - name: hub_crypto_order
     description: Hub for orders in crypto platforms.
+
+  - name: hub_crypto_trade
+    description: Hub for trades in crypto platforms.
   
   - name: sat_crypto_payin
     description: Satellite for payins to crypto platforms or wallets.
 
   - name: sat_crypto_order
     description: Satellite for orders in crypto platforms.
+
+  - name: sat_crypto_trade
+    description: Satellite for trades in crypto platforms.
