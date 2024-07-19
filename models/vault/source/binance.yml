@@ -6,3 +6,5 @@ sources:
     tables:
       - name: binance_payins
         description: Pay-ins to the binance account.
+      - name: binance_orders_spot
+        description: Order from the binance account.
