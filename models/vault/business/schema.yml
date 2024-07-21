@@ -1,0 +1,5 @@
+version: 2
+
+models:
+  - name: calc_crypto_accountbalance
+    description: Calculation of the accountbalance per wallet and coin.
