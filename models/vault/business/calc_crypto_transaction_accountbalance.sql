@@ -1,6 +1,7 @@
 {{
     config(
-        materialized = 'table'
+        materialized = 'table',
+        order_by = 'fk_crypto_transaction'
     )
 }}
 
@@ -15,33 +16,15 @@ with sat_crypto_transaction as (
 -- apply calculation logic
 -----------------------------------------------
 
-base as (
-
-    select
-        -- properties
-        transaction_at,
-        wallet,
-        coin,
-        sum(change_amount) as change_amount
-    from sat_crypto_transaction
-    group by
-        transaction_at,
-        wallet,
-        coin
-
-),
-
 final as (
 
     select
+        -- keys
+        fk_crypto_transaction,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,
         -- properties
-        transaction_at,
-        wallet,
-        coin,
-        change_amount,
         sum(change_amount) over (
             partition by
                 wallet,
@@ -50,7 +33,7 @@ final as (
                 transaction_at asc,
                 change_amount desc
         ) as accountbalance
-    from base
+    from sat_crypto_transaction
 
 )
 
