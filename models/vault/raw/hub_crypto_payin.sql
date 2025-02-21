@@ -9,7 +9,7 @@
 -----------------------------------------------
 with binance_payins as (
 
-    select * from {{ source('binance', 'binance_payins') }}
+    select * from {{ source('airbyte', 'binance_payins') }}
 
 ),
 
