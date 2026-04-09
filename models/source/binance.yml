@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: airbyte
+  - name: binance
     schema: source
     tables:
       - name: binance_payins

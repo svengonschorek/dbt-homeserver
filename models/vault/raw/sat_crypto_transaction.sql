@@ -9,13 +9,13 @@
 -----------------------------------------------
 with binance_transactions_spot as (
 
-    select * from {{ source('airbyte', 'binance_transactions_spot') }}
+    select * from {{ source('binance', 'binance_transactions_spot') }}
 
 ),
 
 binance_transactions_futures as (
 
-    select * from {{ source('airbyte', 'binance_transactions_futures') }}
+    select * from {{ source('binance', 'binance_transactions_futures') }}
 
 ),
 
