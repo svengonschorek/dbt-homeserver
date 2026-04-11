@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: bybit
+    schema: source
+    tables:
+      - name: bybit_pnl
+        description: PnL from trades the bybit algotrading account.
