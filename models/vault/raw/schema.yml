@@ -3,18 +3,48 @@ version: 2
 models:
   - name: hub_crypto_payin
     description: Hub for payins to crypto platforms or wallets.
+    columns:
+      - name: pk_crypto_payin
+        description: Primary key for the crypto payin hub.
+        data_tests:
+          - not_null
+          - unique
   
   - name: hub_crypto_order
     description: Hub for orders in crypto platforms.
+    columns:
+      - name: pk_crypto_order
+        description: Primary key for the crypto order hub.
+        data_tests:
+          - not_null
+          - unique
 
   - name: hub_crypto_trade
     description: Hub for trades in crypto platforms.
+    columns:
+      - name: pk_crypto_trade
+        description: Primary key for the crypto trade hub.
+        data_tests:
+          - not_null
+          - unique
 
   - name: hub_crypto_transaction
     description: Hub for transactions on crypto wallets.
+    columns:
+      - name: pk_crypto_transaction
+        description: Primary key for the crypto transaction hub.
+        data_tests:
+          - not_null
+          - unique
   
   - name: hub_crypto_pnl
     description: Hub for PnL from trades in crypto platforms.
+    columns:
+      - name: pk_crypto_pnl
+        description: Primary key for the crypto PnL hub.
+        data_tests:
+          - not_null
+          - unique
   
   - name: sat_crypto_payin
     description: Satellite for payins to crypto platforms or wallets.
