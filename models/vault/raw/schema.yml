@@ -51,6 +51,9 @@ models:
 
   - name: sat_crypto_order_binance
     description: Satellite for orders from binance.
+  
+  - name: sat_crypto_order_bybit
+    description: Satellite for orders from bybit.
 
   - name: sat_crypto_trade
     description: Satellite for trades in crypto platforms.
@@ -60,3 +63,6 @@ models:
   
   - name: sat_crypto_pnl
     description: Satellite for PnL from trades in crypto platforms.
+
+  - name: link_crypto_pnl_crypto_order
+    description: Link from crypto PnL to crypto order on bybit.
