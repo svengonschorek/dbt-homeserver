@@ -49,8 +49,8 @@ models:
   - name: sat_crypto_payin
     description: Satellite for payins to crypto platforms or wallets.
 
-  - name: sat_crypto_order
-    description: Satellite for orders in crypto platforms.
+  - name: sat_crypto_order_binance
+    description: Satellite for orders from binance.
 
   - name: sat_crypto_trade
     description: Satellite for trades in crypto platforms.
