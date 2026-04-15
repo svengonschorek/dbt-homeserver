@@ -8,3 +8,5 @@ sources:
         description: PnL from trades the bybit algotrading account.
       - name: bybit_orders
         description: Orders from the bybit algotrading account.
+      - name: bybit_trades
+        description: Trades from the bybit algotrading account.

@@ -19,8 +19,8 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat('bybit_', pnl.symbol, '_', pnl.orderId)))) as pk_crypto_pnl_crypto_order,
-        lower(hex(MD5(concat('bybit_', pnl.symbol, '_', pnl.orderId)))) as fk_crypto_pnl,
+        lower(hex(MD5(concat('bybit_', lower(pnl.symbol), '_', pnl.orderId)))) as pk_crypto_pnl_crypto_order,
+        lower(hex(MD5(concat('bybit_', lower(pnl.symbol), '_', pnl.orderId)))) as fk_crypto_pnl,
         lower(hex(MD5(concat('bybit_', pnl.orderId)))) as fk_crypto_order,
         -- metadata
         '{{ invocation_id }}' as record_source,
