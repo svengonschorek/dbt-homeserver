@@ -58,6 +58,9 @@ models:
   - name: sat_crypto_trade_binance
     description: Satellite for trades from the binance platform.
 
+  - name: sat_crypto_trade_bybit
+    description: Satellite for trades from the bybit platform.
+
   - name: sat_crypto_transaction
     description: Satellite for transactions on crypto wallets.
   

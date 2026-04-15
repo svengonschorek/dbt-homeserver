@@ -112,6 +112,7 @@ final as (
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
     from base_bybit
+    where r = 1
 
 )
 
