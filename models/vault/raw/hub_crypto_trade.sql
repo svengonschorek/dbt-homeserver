@@ -19,6 +19,12 @@ binance_trades_futures as (
 
 ),
 
+bybit_trades as (
+
+    select * from {{ source('bybit', 'bybit_trades') }}
+
+),
+
 -- implement logic to build the model
 -----------------------------------------------
 base_spot as (
@@ -59,6 +65,21 @@ base_futures as (
 
 ),
 
+base_bybit as (
+
+    select
+        execId as unique_key,
+        symbol,
+        row_number() over (
+            partition by
+                execId
+            order by
+                execTime desc
+        ) as r
+    from bybit_trades
+
+),
+
 final as (
 
     select
@@ -80,6 +101,18 @@ final as (
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
     from base_futures
+
+    union all
+
+    select
+        -- keys
+        lower(hex(MD5(concat('bybit_', lower(symbol), '_', unique_key)))) as pk_crypto_trade,
+        concat('bybit_', lower(symbol), '_', unique_key) as bk_crypto_trade,
+        -- metadata
+        '{{ invocation_id }}' as record_source,
+        toDateTime(now(), 'Europe/Berlin') as load_dts
+    from base_bybit
+    where r = 1
 
 )
 
