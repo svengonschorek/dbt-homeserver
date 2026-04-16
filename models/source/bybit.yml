@@ -10,3 +10,5 @@ sources:
         description: Orders from the bybit algotrading account.
       - name: bybit_trades
         description: Trades from the bybit algotrading account.
+      - name: bybit_kline_1m_usdt_eur
+        description: 1 minute kline data for USDT/EUR from bybit. Used for backtesting and PnL calculation.
