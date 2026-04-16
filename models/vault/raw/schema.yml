@@ -46,6 +46,15 @@ models:
           - not_null
           - unique
   
+  - name: hub_crypto_kline
+    description: Hub for kline data from crypto platforms.
+    columns:
+      - name: pk_crypto_kline
+        description: Primary key for the crypto kline hub.
+        data_tests:
+          - not_null
+          - unique
+  
   - name: sat_crypto_payin
     description: Satellite for payins to crypto platforms or wallets.
 
@@ -66,6 +75,9 @@ models:
   
   - name: sat_crypto_pnl
     description: Satellite for PnL from trades in crypto platforms.
+
+  - name: sat_crypto_kline
+    description: Satellite for kline data from crypto platforms.
 
   - name: link_crypto_pnl_crypto_order
     description: Link from crypto PnL to crypto order on bybit.
