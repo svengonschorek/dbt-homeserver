@@ -76,5 +76,8 @@ models:
   - name: sat_crypto_pnl
     description: Satellite for PnL from trades in crypto platforms.
 
+  - name: sat_crypto_kline
+    description: Satellite for kline data from crypto platforms.
+
   - name: link_crypto_pnl_crypto_order
     description: Link from crypto PnL to crypto order on bybit.

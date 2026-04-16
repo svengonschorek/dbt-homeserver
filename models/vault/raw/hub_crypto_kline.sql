@@ -18,7 +18,7 @@ with bybit_klines_1m_usdt_eur as (
 base_bybit as (
 
     select
-        concat('USDTEUR_1m_', klineAt) as unique_key,
+        concat('usdteur_1m_', klineAt) as unique_key,
         row_number() over (
             partition by klineAt order by volume desc
         ) as r
