@@ -81,3 +81,6 @@ models:
 
   - name: link_crypto_pnl_crypto_order
     description: Link from crypto PnL to crypto order on bybit.
+  
+  - name: link_crypto_trade_crypto_order
+    description: Link from crypto trade to crypto order on bybit.
