@@ -11,6 +11,13 @@ with sat_crypto_trade as (
 
 ),
 
+sat_crypto_kline as (
+
+    select * from {{ ref('sat_crypto_kline') }}
+    where symbol = 'USDTEUR' and kline_interval = '1m'
+
+),
+
 base as (
 
     select
@@ -21,6 +28,8 @@ base as (
         t.execution_type,
         t.price,
         t.fee_amount,
+        t.price * toDecimal32(k.close_price, 4) as price_eur,
+        t.fee_amount * toDecimal32(k.close_price, 4) as fee_amount_eur,
         case
             when t.side = 'Buy' and t.execution_type = 'Trade'
                 then t.quantity
@@ -29,6 +38,9 @@ base as (
             else 0
         end as quantity
     from sat_crypto_trade as t
+
+    inner join sat_crypto_kline as k
+        on k.kline_start_at = toStartOfMinute(t.trade_at)
 
 ),
 
@@ -41,6 +53,7 @@ with_position as (
         b.side,
         b.execution_type,
         b.price,
+        b.price_eur,
         b.quantity,
         coalesce(
             sum(b.quantity) over (
@@ -63,6 +76,7 @@ legs as (
         symbol,
         trade_at,
         price,
+        price_eur,
         'long_close' as leg_type,
         least(-quantity, net_before) as qty
     from with_position
@@ -75,6 +89,7 @@ legs as (
         symbol,
         trade_at,
         price,
+        price_eur,
         'short_close' as leg_type,
         least(quantity, -net_before) as qty
     from with_position
@@ -87,6 +102,7 @@ legs as (
         symbol,
         trade_at,
         price,
+        price_eur,
         'long_open' as leg_type,
         case
             when net_before >= 0 then quantity
@@ -104,6 +120,7 @@ legs as (
         symbol,
         trade_at,
         price,
+        price_eur,
         'short_open' as leg_type,
         case
             when net_before <= 0 then -quantity
@@ -122,6 +139,7 @@ long_opens as (
         fk_crypto_trade,
         symbol,
         price as buy_price,
+        price_eur as buy_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
             order by trade_at, fk_crypto_trade
@@ -142,6 +160,7 @@ long_closes as (
         fk_crypto_trade,
         symbol,
         price as sell_price,
+        price_eur as sell_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
             order by trade_at, fk_crypto_trade
@@ -162,6 +181,7 @@ short_opens as (
         fk_crypto_trade,
         symbol,
         price as sell_price,
+        price_eur as sell_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
             order by trade_at, fk_crypto_trade
@@ -182,6 +202,7 @@ short_closes as (
         fk_crypto_trade,
         symbol,
         price as buy_price,
+        price_eur as buy_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
             order by trade_at, fk_crypto_trade
@@ -203,7 +224,11 @@ pnl_fifo as (
         sum(
             (c.sell_price - o.buy_price)
             * (least(o.cum_after, c.cum_after) - greatest(o.cum_before, c.cum_before))
-        ) as realized_pnl
+        ) as realized_pnl,
+        sum(
+            (c.sell_price_eur - o.buy_price_eur)
+            * (least(o.cum_after, c.cum_after) - greatest(o.cum_before, c.cum_before))
+        ) as realized_pnl_eur
     from long_closes as c
     cross join long_opens as o
     where
@@ -220,7 +245,11 @@ pnl_fifo as (
         sum(
             (o.sell_price - c.buy_price)
             * (least(o.cum_after, c.cum_after) - greatest(o.cum_before, c.cum_before))
-        ) as realized_pnl
+        ) as realized_pnl,
+        sum(
+            (o.sell_price_eur - c.buy_price_eur)
+            * (least(o.cum_after, c.cum_after) - greatest(o.cum_before, c.cum_before))
+        ) as realized_pnl_eur
     from short_closes as c
     cross join short_opens as o
     where
@@ -241,9 +270,12 @@ final as (
         b.side,
         b.execution_type,
         b.price,
+        b.price_eur,
         b.quantity,
         b.fee_amount,
-        coalesce(p.realized_pnl, 0) as realized_pnl
+        b.fee_amount_eur,
+        coalesce(p.realized_pnl, 0) as realized_pnl,
+        coalesce(p.realized_pnl_eur, 0) as realized_pnl_eur
     from base as b
     left join pnl_fifo as p
         on b.fk_crypto_trade = p.fk_crypto_trade
