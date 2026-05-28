@@ -3,3 +3,5 @@ version: 2
 models:
   - name: fact_crypto_transaction
     description: Fact table for all crypto transactions.
+  - name: fact_crypto_trade
+    description: Fact table for all crypto trades. A trade is defined as a buy or sell transaction, which is matched with a corresponding sell or buy transaction. The trade table is used to calculate the PnL per trade.
