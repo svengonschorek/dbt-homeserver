@@ -5,6 +5,9 @@
     )
 }}
 
+-- select needed models
+-----------------------------------------------
+
 with sat_crypto_trade as (
 
     select * from {{ ref('sat_crypto_trade_bybit') }}
@@ -17,6 +20,9 @@ sat_crypto_kline as (
     where symbol = 'USDTEUR' and kline_interval = '1m'
 
 ),
+
+-- create base with all trades and their properties, including price in EUR
+-----------------------------------------------
 
 base as (
 
@@ -43,6 +49,9 @@ base as (
         on k.kline_start_at = toStartOfMinute(t.trade_at)
 
 ),
+
+-- split trades into legs (long open, long close, short open, short close)
+-----------------------------------------------
 
 with_position as (
 
@@ -217,6 +226,9 @@ short_closes as (
 
 ),
 
+-- calculate PnL per trade using FIFO approach
+-----------------------------------------------
+
 pnl_fifo as (
 
     select
@@ -260,6 +272,9 @@ pnl_fifo as (
         c.fk_crypto_trade
 
 ),
+
+-- join PnL back to base to get final model with PnL per trade
+-----------------------------------------------
 
 final as (
 
