@@ -33,6 +33,7 @@ final as (
         sct.change_amount,
         cta.accountbalance,
         -- properties
+        'binance' as platform,
         sct.coin,
         sct.transaction_at,
         sct.operation,
