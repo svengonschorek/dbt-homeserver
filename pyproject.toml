@@ -1,11 +1,11 @@
 [project]
 name = "dbt-homeserver"
-version = "1.0.0"
-description = "dbt project to manage data transformations on the homeserver clickhouse"
+version = "2.0.0"
+description = "dbt project to manage data transformations on the kubernetes clickhouse"
 requires-python = ">=3.11"
 dependencies = [
-    "dbt-core==1.11.7",
-    "dbt-clickhouse==1.10.0",
+    "dbt-core==1.11.12",
+    "dbt-clickhouse==1.10.1",
     "sqlfluff==3.1.0",
     "sqlfluff-templater-dbt==3.1.0"
 ]

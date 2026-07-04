@@ -3,9 +3,9 @@ dwh:
   outputs:
     prod:
       type: clickhouse
-      host: "{{ env_var('HOST') }}"
-      port: "{{ env_var('PORT') | int }}"
+      host: "{{ env_var('DBT_HOST') }}"
+      port: "{{ env_var('DBT_PORT') | int }}"
       schema: vault_raw
-      user: "{{ env_var('USER') }}"
-      password: "{{ env_var('PASSWORD') }}"
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
   target: prod
