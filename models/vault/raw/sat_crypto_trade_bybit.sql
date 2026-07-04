@@ -29,7 +29,7 @@ base_bybit as (
         ) as r,
         -- properties
         orderType as order_type,
-        toDateTime(execTime / 1000, 'Europe/Berlin') as trade_at,
+        toDateTime(cast(execTime / 1000, 'UInt32'), 'Europe/Berlin') as trade_at,
         side,
         execType as execution_type,
         toDecimal64(execQty, 4) as quantity,

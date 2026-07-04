@@ -9,7 +9,7 @@
 -----------------------------------------------
 with bybit_klines_1m_usdt_eur as (
 
-    select * from {{ source('bybit', 'bybit_kline_1m_usdt_eur') }}
+    select * from {{ source('bybit', 'bybit_klines_1m_usdt_eur') }}
 
 ),
 
@@ -24,8 +24,8 @@ base_bybit as (
             partition by kl.klineAt order by kl.volume desc
         ) as r,
         -- properties
-        toDateTime(kl.klineAt / 1000, 'Europe/Berlin') as kline_start_at,
-        toDateTime(kl.klineAt / 1000 + 60, 'Europe/Berlin') as kline_end_at,
+        toDateTime(cast(kl.klineAt / 1000, 'UInt32'), 'Europe/Berlin') as kline_start_at,
+        toDateTime(cast(kl.klineAt / 1000 + 60, 'UInt32'), 'Europe/Berlin') as kline_end_at,
         toDecimal64(kl.openPrice, 8) as open_price,
         toDecimal64(kl.highPrice, 8) as high_price,
         toDecimal64(kl.lowPrice, 8) as low_price,

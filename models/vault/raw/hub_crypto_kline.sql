@@ -9,7 +9,7 @@
 -----------------------------------------------
 with bybit_klines_1m_usdt_eur as (
 
-    select * from {{ source('bybit', 'bybit_kline_1m_usdt_eur') }}
+    select * from {{ source('bybit', 'bybit_klines_1m_usdt_eur') }}
 
 ),
 

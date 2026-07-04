@@ -26,7 +26,7 @@ base as (
         orderId as order_id,
         orderType as order_type,
         orderStatus as order_status,
-        toDateTime(createdTime / 1000, 'Europe/Berlin') as order_at,
+        toDateTime(cast(createdTime / 1000, 'UInt32'), 'Europe/Berlin') as order_at,
         toDecimal64(qty, 4) as quantity,
         toDecimal64(price, 8) as price,
         toDecimal64(cumExecValue, 8) as cumumlative_exec_value,
