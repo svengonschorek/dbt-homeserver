@@ -6,4 +6,5 @@ config/*
 !/config/profiles.yml
 .user.yml
 profiles.yml
+!/ci/profiles.yml
 .DS_Store

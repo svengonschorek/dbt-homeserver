@@ -1,0 +1,10 @@
+dwh:
+  outputs:
+    ci:
+      type: clickhouse
+      host: dummy_host
+      port: 8123
+      schema: vault_raw
+      user: dummy_user
+      password: dummy_password
+  target: ci
