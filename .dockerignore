@@ -1,0 +1,12 @@
+# dbt temporary files
+target/
+dbt_packages/
+logs/
+
+# local configuration files
+config/*
+.user.yml
+.DS_Store
+pyproject.toml
+uv.lock
+.venv/

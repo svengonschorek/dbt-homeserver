@@ -1,0 +1,11 @@
+FROM python:3.11-slim AS builder
+WORKDIR /dbt
+COPY . .
+RUN pip install --no-cache-dir -r requirements.txt
+RUN dbt deps
+# dbt parse doesn't need a live warehouse connection, just a valid profiles.yml shape
+RUN dbt parse --profiles-dir /dbt/ci --target ci
+
+FROM alpine:3.19
+COPY --from=builder /dbt/target/manifest.json /manifest.json
+COPY dbt_project.yml /dbt_project.yml
