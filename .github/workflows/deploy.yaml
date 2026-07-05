@@ -26,7 +26,6 @@ jobs:
       - name: Build and push runtime image
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64,linux/arm64
           file: Dockerfile.runtime
           push: true
           tags: ${{ env.RUNTIME_IMAGE }}:${{ github.sha }}
@@ -34,7 +33,6 @@ jobs:
       - name: Build and push manifest image
         uses: docker/build-push-action@v4
         with:
-          platforms: linux/amd64,linux/arm64
           file: Dockerfile.manifest
           push: true
           tags: ${{ env.MANIFEST_IMAGE }}:${{ github.sha }}
