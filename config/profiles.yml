@@ -1,6 +1,13 @@
 
 dwh:
   outputs:
+    dev:
+      type: clickhouse
+      host: "{{ env_var('DBT_HOST') }}"
+      port: "{{ env_var('DBT_PORT') | int }}"
+      schema: dev
+      user: "{{ env_var('DBT_USER') }}"
+      password: "{{ env_var('DBT_PASSWORD') }}"
     prod:
       type: clickhouse
       host: "{{ env_var('DBT_HOST') }}"
@@ -8,4 +15,4 @@ dwh:
       schema: vault_raw
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
-  target: prod
+  target: dev
