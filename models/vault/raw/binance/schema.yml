@@ -1,0 +1,15 @@
+version: 2
+
+models:
+
+  - name: hub_binance_payin
+    description: Hub for payins to crypto platforms or wallets.
+    columns:
+      - name: pk_binance_payin
+        description: Primary key for the crypto payin hub.
+        data_tests:
+          - not_null
+          - unique
+  
+  - name: sat_crypto_payin
+    description: Satellite for payins to crypto platforms or wallets.

@@ -1,0 +1,16 @@
+version: 2
+
+models:
+
+  - name: hub_bybit_kline
+    description: Hub for kline data from the bybit platforms.
+    columns:
+      - name: pk_bybit_kline
+        description: Primary key for the bybit kline hub.
+        data_tests:
+          - not_null
+          - unique
+
+  - name: sat_bybit_kline
+    description: Satellite for kline data from the bybit platforms.
+

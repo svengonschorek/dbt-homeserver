@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'fk_crypto_payin'
+        order_by = 'pk_binance_payin'
     )
 }}
 
@@ -19,17 +19,11 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat('binance_', order_id)))) as fk_crypto_payin,
+        lower(hex(MD5(concat('binance_', order_id)))) as pk_binance_payin,
+        concat('binance_', order_id) as bk_binance_payin,
         -- metadata
         '{{ invocation_id }}' as record_source,
-        toDateTime(now(), 'Europe/Berlin') as load_dts,
-        -- properties
-        'binance' as platform,
-        toDateTime(payin_local_at) as payin_at,
-        toDecimal32(amount, 2) as amount,
-        toDecimal32(fee, 2) as fee_amount,
-        coin,
-        payment_method
+        toDateTime(now(), 'Europe/Berlin') as load_dts
     from binance_payins
     where status = 'Successful'
 

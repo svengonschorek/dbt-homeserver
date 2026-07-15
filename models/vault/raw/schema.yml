@@ -1,14 +1,6 @@
 version: 2
 
 models:
-  - name: hub_crypto_payin
-    description: Hub for payins to crypto platforms or wallets.
-    columns:
-      - name: pk_crypto_payin
-        description: Primary key for the crypto payin hub.
-        data_tests:
-          - not_null
-          - unique
   
   - name: hub_crypto_order
     description: Hub for orders in crypto platforms.
@@ -45,18 +37,6 @@ models:
         data_tests:
           - not_null
           - unique
-  
-  - name: hub_crypto_kline
-    description: Hub for kline data from crypto platforms.
-    columns:
-      - name: pk_crypto_kline
-        description: Primary key for the crypto kline hub.
-        data_tests:
-          - not_null
-          - unique
-  
-  - name: sat_crypto_payin
-    description: Satellite for payins to crypto platforms or wallets.
 
   - name: sat_crypto_order_binance
     description: Satellite for orders from binance.
@@ -75,9 +55,6 @@ models:
   
   - name: sat_crypto_pnl
     description: Satellite for PnL from trades in crypto platforms.
-
-  - name: sat_crypto_kline
-    description: Satellite for kline data from crypto platforms.
 
   - name: link_crypto_pnl_crypto_order
     description: Link from crypto PnL to crypto order on bybit.

@@ -14,9 +14,9 @@ with sat_crypto_trade as (
 
 ),
 
-sat_crypto_kline as (
+sat_bybit_kline as (
 
-    select * from {{ ref('sat_crypto_kline') }}
+    select * from {{ ref('sat_bybit_kline') }}
     where symbol = 'USDTEUR' and kline_interval = '1m'
 
 ),
@@ -45,7 +45,7 @@ base as (
         end as quantity
     from sat_crypto_trade as t
 
-    inner join sat_crypto_kline as k
+    inner join sat_bybit_kline as k
         on k.kline_start_at = toStartOfMinute(t.trade_at)
 
 ),
