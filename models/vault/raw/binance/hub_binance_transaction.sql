@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'pk_crypto_transaction'
+        order_by = 'pk_binance_transaction'
     )
 }}
 
@@ -67,7 +67,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_transaction,
+        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_binance_transaction,
         concat(unique_key, '_', r) as bk_crypto_transaction,
         -- metadata
         '{{ invocation_id }}' as record_source,
@@ -78,7 +78,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_transaction,
+        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_binance_transaction,
         concat(unique_key, '_', r) as bk_crypto_transaction,
         -- metadata
         '{{ invocation_id }}' as record_source,

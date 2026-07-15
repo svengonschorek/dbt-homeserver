@@ -13,4 +13,15 @@ models:
 
   - name: sat_bybit_kline
     description: Satellite for kline data from the bybit platforms.
+  
+  - name: hub_bybit_pnl
+    description: Hub for PnL from trades in crypto platforms.
+    columns:
+      - name: pk_bybit_pnl
+        description: Primary key for the crypto PnL hub.
+        data_tests:
+          - not_null
+          - unique
 
+  - name: sat_bybit_pnl
+    description: Satellite for PnL from trades in crypto platforms.

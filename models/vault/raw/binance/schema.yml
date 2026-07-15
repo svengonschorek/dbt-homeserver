@@ -13,3 +13,15 @@ models:
   
   - name: sat_crypto_payin
     description: Satellite for payins to crypto platforms or wallets.
+  
+  - name: hub_crypto_transaction
+    description: Hub for transactions on crypto wallets.
+    columns:
+      - name: pk_crypto_transaction
+        description: Primary key for the crypto transaction hub.
+        data_tests:
+          - not_null
+          - unique
+  
+  - name: sat_crypto_transaction
+    description: Satellite for transactions on crypto wallets.

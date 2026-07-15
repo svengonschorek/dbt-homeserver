@@ -20,24 +20,6 @@ models:
           - not_null
           - unique
 
-  - name: hub_crypto_transaction
-    description: Hub for transactions on crypto wallets.
-    columns:
-      - name: pk_crypto_transaction
-        description: Primary key for the crypto transaction hub.
-        data_tests:
-          - not_null
-          - unique
-  
-  - name: hub_crypto_pnl
-    description: Hub for PnL from trades in crypto platforms.
-    columns:
-      - name: pk_crypto_pnl
-        description: Primary key for the crypto PnL hub.
-        data_tests:
-          - not_null
-          - unique
-
   - name: sat_crypto_order_binance
     description: Satellite for orders from binance.
   
@@ -49,12 +31,6 @@ models:
 
   - name: sat_crypto_trade_bybit
     description: Satellite for trades from the bybit platform.
-
-  - name: sat_crypto_transaction
-    description: Satellite for transactions on crypto wallets.
-  
-  - name: sat_crypto_pnl
-    description: Satellite for PnL from trades in crypto platforms.
 
   - name: link_crypto_pnl_crypto_order
     description: Link from crypto PnL to crypto order on bybit.
