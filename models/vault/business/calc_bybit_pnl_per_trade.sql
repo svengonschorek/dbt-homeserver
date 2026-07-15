@@ -1,16 +1,16 @@
 {{
     config(
         materialized='table',
-        order_by='fk_crypto_trade'
+        order_by='fk_bybit_trade'
     )
 }}
 
 -- select needed models
 -----------------------------------------------
 
-with sat_crypto_trade as (
+with sat_bybit_trade as (
 
-    select * from {{ ref('sat_crypto_trade_bybit') }}
+    select * from {{ ref('sat_bybit_trade') }}
 
 ),
 
@@ -27,7 +27,7 @@ sat_bybit_kline as (
 base as (
 
     select
-        t.fk_crypto_trade,
+        t.fk_bybit_trade,
         t.symbol,
         t.trade_at,
         t.side,
@@ -43,7 +43,7 @@ base as (
                 then -1 * t.quantity
             else 0
         end as quantity
-    from sat_crypto_trade as t
+    from sat_bybit_trade as t
 
     inner join sat_bybit_kline as k
         on k.kline_start_at = toStartOfMinute(t.trade_at)
@@ -56,7 +56,7 @@ base as (
 with_position as (
 
     select
-        b.fk_crypto_trade,
+        b.fk_bybit_trade,
         b.symbol,
         b.trade_at,
         b.side,
@@ -70,7 +70,7 @@ with_position as (
                     b.symbol
                 order by
                     b.trade_at,
-                    b.fk_crypto_trade
+                    b.fk_bybit_trade
                 rows between unbounded preceding and 1 preceding
             ), 0
         ) as net_before
@@ -81,7 +81,7 @@ with_position as (
 legs as (
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         trade_at,
         price,
@@ -94,7 +94,7 @@ legs as (
     union all
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         trade_at,
         price,
@@ -107,7 +107,7 @@ legs as (
     union all
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         trade_at,
         price,
@@ -125,7 +125,7 @@ legs as (
     union all
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         trade_at,
         price,
@@ -145,18 +145,18 @@ legs as (
 long_opens as (
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         price as buy_price,
         price_eur as buy_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
             rows between unbounded preceding and 1 preceding
         ), 0) as cum_before,
         sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
         ) as cum_after
     from legs
     where leg_type = 'long_open'
@@ -166,18 +166,18 @@ long_opens as (
 long_closes as (
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         price as sell_price,
         price_eur as sell_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
             rows between unbounded preceding and 1 preceding
         ), 0) as cum_before,
         sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
         ) as cum_after
     from legs
     where leg_type = 'long_close'
@@ -187,18 +187,18 @@ long_closes as (
 short_opens as (
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         price as sell_price,
         price_eur as sell_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
             rows between unbounded preceding and 1 preceding
         ), 0) as cum_before,
         sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
         ) as cum_after
     from legs
     where leg_type = 'short_open'
@@ -208,18 +208,18 @@ short_opens as (
 short_closes as (
 
     select
-        fk_crypto_trade,
+        fk_bybit_trade,
         symbol,
         price as buy_price,
         price_eur as buy_price_eur,
         coalesce(sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
             rows between unbounded preceding and 1 preceding
         ), 0) as cum_before,
         sum(qty) over (
             partition by symbol
-            order by trade_at, fk_crypto_trade
+            order by trade_at, fk_bybit_trade
         ) as cum_after
     from legs
     where leg_type = 'short_close'
@@ -232,7 +232,7 @@ short_closes as (
 pnl_fifo as (
 
     select
-        c.fk_crypto_trade,
+        c.fk_bybit_trade,
         sum(
             (c.sell_price - o.buy_price)
             * (least(o.cum_after, c.cum_after) - greatest(o.cum_before, c.cum_before))
@@ -248,12 +248,12 @@ pnl_fifo as (
         and o.cum_before < c.cum_after
         and o.cum_after > c.cum_before
     group by
-        c.fk_crypto_trade
+        c.fk_bybit_trade
 
     union all
 
     select
-        c.fk_crypto_trade,
+        c.fk_bybit_trade,
         sum(
             (o.sell_price - c.buy_price)
             * (least(o.cum_after, c.cum_after) - greatest(o.cum_before, c.cum_before))
@@ -269,7 +269,7 @@ pnl_fifo as (
         and o.cum_before < c.cum_after
         and o.cum_after > c.cum_before
     group by
-        c.fk_crypto_trade
+        c.fk_bybit_trade
 
 ),
 
@@ -279,7 +279,7 @@ pnl_fifo as (
 final as (
 
     select
-        b.fk_crypto_trade,
+        b.fk_bybit_trade,
         b.symbol,
         b.trade_at,
         b.side,
@@ -293,7 +293,7 @@ final as (
         coalesce(p.realized_pnl_eur, 0) as realized_pnl_eur
     from base as b
     left join pnl_fifo as p
-        on b.fk_crypto_trade = p.fk_crypto_trade
+        on b.fk_bybit_trade = p.fk_bybit_trade
 
 )
 

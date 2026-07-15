@@ -8,7 +8,7 @@
 -- select data from sources
 -----------------------------------------------
 
-bybit_trades as (
+with bybit_trades as (
 
     select * from {{ source('bybit', 'bybit_trades') }}
 

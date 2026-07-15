@@ -23,7 +23,7 @@ models:
           - not_null
           - unique
   
-  - name: sat_crypto_transaction
+  - name: sat_binance_transaction
     description: Satellite for transactions on the binance crypto wallets.
   
   - name: hub_binance_trade

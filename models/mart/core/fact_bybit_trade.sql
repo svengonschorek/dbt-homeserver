@@ -7,9 +7,9 @@
 
 -- select needed models
 -----------------------------------------------
-with sat_crypto_trade as (
+with sat_bybit_trade as (
 
-    select * from {{ ref('calc_crypto_pnl_per_trade') }}
+    select * from {{ ref('calc_bybit_pnl_per_trade') }}
 
 ),
 
@@ -19,7 +19,7 @@ final as (
 
     select
         -- keys
-        fk_crypto_trade,
+        fk_bybit_trade,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,
@@ -37,7 +37,7 @@ final as (
         trade_at,
         side,
         execution_type
-    from sat_crypto_trade
+    from sat_bybit_trade
 
 )
 
