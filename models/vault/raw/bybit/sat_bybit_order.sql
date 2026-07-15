@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'fk_crypto_order'
+        order_by = 'fk_bybit_order'
     )
 }}
 
@@ -43,7 +43,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(unique_key))) as fk_crypto_order,
+        lower(hex(MD5(unique_key))) as fk_bybit_order,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,

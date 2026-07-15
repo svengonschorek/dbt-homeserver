@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'pk_crypto_order'
+        order_by = 'fk_binance_order'
     )
 }}
 
@@ -13,17 +13,12 @@ with binance_orders_spot as (
 
 ),
 
-bybit_orders as (
-
-    select * from {{ source('bybit', 'bybit_orders') }}
-
-),
-
 -- implement logic to build the model
 -----------------------------------------------
-base_binance as (
+base as (
 
     select
+        *,
         concat(
             'binance',
             '_',
@@ -49,39 +44,29 @@ base_binance as (
 
 ),
 
-base_bybit as (
-
-    select
-        concat('bybit_', bo.orderId) as unique_key,
-        row_number() over (
-            partition by bo.orderId order by bo.createdTime desc
-        ) as r
-    from bybit_orders as bo
-
-),
-
 final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_order,
-        concat(unique_key, '_', r) as bk_crypto_order,
+        lower(hex(MD5(concat(b.unique_key, '_', b.r)))) as fk_binance_order,
         -- metadata
         '{{ invocation_id }}' as record_source,
-        toDateTime(now(), 'Europe/Berlin') as load_dts
-    from base_binance
-
-    union all
-
-    select
-        -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_order,
-        concat(unique_key) as bk_crypto_order,
-        -- metadata
-        '{{ invocation_id }}' as record_source,
-        toDateTime(now(), 'Europe/Berlin') as load_dts
-    from base_bybit
-    where r = 1
+        toDateTime(now(), 'Europe/Berlin') as load_dts,
+        -- properties
+        toDateTime(b.order_utc_at, 'Europe/Berlin') as order_at,
+        'binance' as platform,
+        'spot' as wallet,
+        b.side,
+        b.pair,
+        b.type,
+        toDecimal64(regexpExtract(b.order_amount, '(\\d+).(\\d+)', 0), 8) as order_amount,
+        regexpExtract(b.order_amount, '[A-Z]+', 0) as order_coin,
+        toDecimal64(b.order_price, 8) as order_price,
+        toDecimal64(regexpExtract(b.executed, '(\\d+).(\\d+)', 0), 8) as executed_amount,
+        toDecimal64(b.average_price, 8) as executed_price,
+        toDecimal64(regexpExtract(b.trading_total, '(\\d+).(\\d+)', 0), 8) as trade_amount,
+        regexpExtract(b.trading_total, '[A-Z]+', 0) as trade_coin
+    from base as b
 
 )
 

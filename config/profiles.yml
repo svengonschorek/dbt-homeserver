@@ -8,6 +8,7 @@ dwh:
       schema: dev
       user: "{{ env_var('DBT_USER') }}"
       password: "{{ env_var('DBT_PASSWORD') }}"
+      threads: 1
     prod:
       type: clickhouse
       host: "{{ env_var('DBT_HOST') }}"

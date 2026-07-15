@@ -1,11 +1,14 @@
 version: 2
 
 models:
-  - name: calc_crypto_accountbalance
+
+  - name: calc_binance_accountbalance
     description: Calculation of the accountbalance per wallet and coin on a transaction time level.
-  - name: calc_crypto_transaction_accountbalance
+
+  - name: calc_binance_transaction_accountbalance
     description: Calculation of the accountbalance per wallet and coin on a transaction level.
-  - name: calc_crypto_pnl_per_trade
+  
+  - name: calc_bybit_pnl_per_trade
     description: |
       Calculation of the PnL per trade on a transaction time level. This is the main PnL calculation 
       model, which uses a FIFO approach to match opens and closes. The PnL is calculated in USDT and

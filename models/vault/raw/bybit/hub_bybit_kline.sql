@@ -1,7 +1,7 @@
 {{
     config(
         materialized='table',
-        order_by='pk_crypto_kline'
+        order_by='pk_bybit_kline'
     )
 }}
 
@@ -32,8 +32,8 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(unique_key))) as pk_crypto_kline,
-        unique_key as bk_crypto_kline,
+        lower(hex(MD5(unique_key))) as pk_bybit_kline,
+        unique_key as bk_bybit_kline,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts

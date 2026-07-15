@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'fk_crypto_transaction'
+        order_by = 'fk_binance_transaction'
     )
 }}
 
@@ -68,7 +68,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(b.unique_key, '_', b.r)))) as fk_crypto_transaction,
+        lower(hex(MD5(concat(b.unique_key, '_', b.r)))) as fk_binance_transaction,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,
@@ -85,7 +85,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(b.unique_key, '_', b.r)))) as fk_crypto_transaction,
+        lower(hex(MD5(concat(b.unique_key, '_', b.r)))) as fk_binance_transaction,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,
