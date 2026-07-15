@@ -46,3 +46,12 @@ models:
         data_tests:
           - not_null
           - unique
+
+  - name: sat_bybit_order
+    description: Satellite for orders from bybit.
+
+  - name: link_bybit_pnl_bybit_order
+    description: Link from PnL to order on ByBit.
+  
+  - name: link_bybit_trade_bybit_order
+    description: Link from trade to order on ByBit.

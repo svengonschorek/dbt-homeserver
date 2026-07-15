@@ -46,3 +46,6 @@ models:
         data_tests:
           - not_null
           - unique
+
+  - name: sat_binance_order
+    description: Satellite for orders from binance.

@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'fk_crypto_pnl'
+        order_by = 'fk_bybit_pnl'
     )
 }}
 
@@ -19,9 +19,9 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat('bybit_', lower(pnl.symbol), '_', pnl.orderId)))) as pk_crypto_pnl_crypto_order,
-        lower(hex(MD5(concat('bybit_', lower(pnl.symbol), '_', pnl.orderId)))) as fk_crypto_pnl,
-        lower(hex(MD5(concat('bybit_', pnl.orderId)))) as fk_crypto_order,
+        lower(hex(MD5(concat('bybit_', lower(pnl.symbol), '_', pnl.orderId)))) as pk_bybit_pnl_bybit_order,
+        lower(hex(MD5(concat('bybit_', lower(pnl.symbol), '_', pnl.orderId)))) as fk_bybit_pnl,
+        lower(hex(MD5(concat('bybit_', pnl.orderId)))) as fk_bybit_order,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
