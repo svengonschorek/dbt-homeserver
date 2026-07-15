@@ -3,25 +3,46 @@ version: 2
 models:
 
   - name: hub_bybit_kline
-    description: Hub for kline data from the bybit platforms.
+    description: Hub for kline data from the ByBit platforms.
     columns:
       - name: pk_bybit_kline
-        description: Primary key for the bybit kline hub.
+        description: Primary key for the ByBit kline hub.
         data_tests:
           - not_null
           - unique
 
   - name: sat_bybit_kline
-    description: Satellite for kline data from the bybit platforms.
+    description: Satellite for kline data from the ByBit platform.
   
   - name: hub_bybit_pnl
-    description: Hub for PnL from trades in crypto platforms.
+    description: Hub for PnL from trades in the ByBit platform.
     columns:
       - name: pk_bybit_pnl
-        description: Primary key for the crypto PnL hub.
+        description: Primary key for the ByBit PnL hub.
         data_tests:
           - not_null
           - unique
 
   - name: sat_bybit_pnl
-    description: Satellite for PnL from trades in crypto platforms.
+    description: Satellite for PnL from trades in the ByBit platform.
+
+  - name: hub_bybit_trade
+    description: Hub for trades in the ByBit platform.
+    columns:
+      - name: pk_bybit_trade
+        description: Primary key for the ByBit trade hub.
+        data_tests:
+          - not_null
+          - unique
+
+  - name: sat_bybit_trade
+    description: Satellite for trades from the ByBit platform.
+
+  - name: hub_bybit_order
+    description: Hub for orders in the ByBit platform.
+    columns:
+      - name: pk_bybit_order
+        description: Primary key for the ByBit order hub.
+        data_tests:
+          - not_null
+          - unique

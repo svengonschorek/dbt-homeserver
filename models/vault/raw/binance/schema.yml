@@ -3,25 +3,46 @@ version: 2
 models:
 
   - name: hub_binance_payin
-    description: Hub for payins to crypto platforms or wallets.
+    description: Hub for payins to the binance wallet.
     columns:
       - name: pk_binance_payin
-        description: Primary key for the crypto payin hub.
+        description: Primary key for the binance payin hub.
         data_tests:
           - not_null
           - unique
   
-  - name: sat_crypto_payin
-    description: Satellite for payins to crypto platforms or wallets.
+  - name: sat_binance_payin
+    description: Satellite for payins to the binance wallet.
   
-  - name: hub_crypto_transaction
-    description: Hub for transactions on crypto wallets.
+  - name: hub_binance_transaction
+    description: Hub for transactions on the binance crypto wallets.
     columns:
-      - name: pk_crypto_transaction
-        description: Primary key for the crypto transaction hub.
+      - name: pk_binance_transaction
+        description: Primary key for the binance transaction hub.
         data_tests:
           - not_null
           - unique
   
   - name: sat_crypto_transaction
-    description: Satellite for transactions on crypto wallets.
+    description: Satellite for transactions on the binance crypto wallets.
+  
+  - name: hub_binance_trade
+    description: Hub for trades in the binance platform.
+    columns:
+      - name: pk_binance_trade
+        description: Primary key for the binance trade hub.
+        data_tests:
+          - not_null
+          - unique
+  
+  - name: sat_binance_trade
+    description: Satellite for trades from the binance platform.
+  
+  - name: hub_binance_order
+    description: Hub for orders in the binance platform.
+    columns:
+      - name: pk_binance_order
+        description: Primary key for the binance order hub.
+        data_tests:
+          - not_null
+          - unique

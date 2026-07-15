@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'pk_crypto_trade'
+        order_by = 'pk_binance_trade'
     )
 }}
 
@@ -16,12 +16,6 @@ with binance_trades_spot as (
 binance_trades_futures as (
 
     select * from {{ source('binance', 'binance_trades_futures') }}
-
-),
-
-bybit_trades as (
-
-    select * from {{ source('bybit', 'bybit_trades') }}
 
 ),
 
@@ -65,27 +59,12 @@ base_futures as (
 
 ),
 
-base_bybit as (
-
-    select
-        execId as unique_key,
-        symbol,
-        row_number() over (
-            partition by
-                execId
-            order by
-                execTime desc
-        ) as r
-    from bybit_trades
-
-),
-
 final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_trade,
-        concat(unique_key, '_', r) as bk_crypto_trade,
+        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_binance_trade,
+        concat(unique_key, '_', r) as bk_binance_trade,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
@@ -95,24 +74,12 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_trade,
-        concat(unique_key, '_', r) as bk_crypto_trade,
+        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_binance_trade,
+        concat(unique_key, '_', r) as bk_binance_trade,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
     from base_futures
-
-    union all
-
-    select
-        -- keys
-        lower(hex(MD5(concat('bybit_', lower(symbol), '_', unique_key)))) as pk_crypto_trade,
-        concat('bybit_', lower(symbol), '_', unique_key) as bk_crypto_trade,
-        -- metadata
-        '{{ invocation_id }}' as record_source,
-        toDateTime(now(), 'Europe/Berlin') as load_dts
-    from base_bybit
-    where r = 1
 
 )
 

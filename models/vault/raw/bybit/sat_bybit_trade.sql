@@ -1,7 +1,7 @@
 {{
     config(
         materialized='table',
-        order_by='fk_crypto_trade'
+        order_by='fk_bybit_trade'
     )
 }}
 
@@ -50,7 +50,7 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat('bybit_', symbol, '_', unique_key)))) as fk_crypto_trade,
+        lower(hex(MD5(concat('bybit_', symbol, '_', unique_key)))) as fk_bybit_trade,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,

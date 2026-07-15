@@ -1,33 +1,12 @@
 version: 2
 
 models:
-  
-  - name: hub_crypto_order
-    description: Hub for orders in crypto platforms.
-    columns:
-      - name: pk_crypto_order
-        description: Primary key for the crypto order hub.
-        data_tests:
-          - not_null
-          - unique
-
-  - name: hub_crypto_trade
-    description: Hub for trades in crypto platforms.
-    columns:
-      - name: pk_crypto_trade
-        description: Primary key for the crypto trade hub.
-        data_tests:
-          - not_null
-          - unique
 
   - name: sat_crypto_order_binance
     description: Satellite for orders from binance.
   
   - name: sat_crypto_order_bybit
     description: Satellite for orders from bybit.
-
-  - name: sat_crypto_trade_binance
-    description: Satellite for trades from the binance platform.
 
   - name: sat_crypto_trade_bybit
     description: Satellite for trades from the bybit platform.

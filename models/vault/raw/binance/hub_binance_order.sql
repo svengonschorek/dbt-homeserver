@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'pk_crypto_order'
+        order_by = 'pk_binance_order'
     )
 }}
 
@@ -10,12 +10,6 @@
 with binance_orders_spot as (
 
     select * from {{ source('binance', 'binance_orders_spot') }}
-
-),
-
-bybit_orders as (
-
-    select * from {{ source('bybit', 'bybit_orders') }}
 
 ),
 
@@ -49,39 +43,16 @@ base_binance as (
 
 ),
 
-base_bybit as (
-
-    select
-        concat('bybit_', bo.orderId) as unique_key,
-        row_number() over (
-            partition by bo.orderId order by bo.createdTime desc
-        ) as r
-    from bybit_orders as bo
-
-),
-
 final as (
 
     select
         -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_order,
-        concat(unique_key, '_', r) as bk_crypto_order,
+        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_binance_order,
+        concat(unique_key, '_', r) as bk_binance_order,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
     from base_binance
-
-    union all
-
-    select
-        -- keys
-        lower(hex(MD5(concat(unique_key, '_', r)))) as pk_crypto_order,
-        concat(unique_key) as bk_crypto_order,
-        -- metadata
-        '{{ invocation_id }}' as record_source,
-        toDateTime(now(), 'Europe/Berlin') as load_dts
-    from base_bybit
-    where r = 1
 
 )
 
