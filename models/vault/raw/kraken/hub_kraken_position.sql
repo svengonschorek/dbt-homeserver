@@ -33,7 +33,7 @@ final as (
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts
     from kraken_positions
-    
+
     qualify row_number() over (partition by executionUid, timestamp) = 1 --noqa
 
 )

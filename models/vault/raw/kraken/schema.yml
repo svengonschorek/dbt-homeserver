@@ -10,6 +10,9 @@ models:
           - not_null
           - unique
 
+  - name: sat_kraken_transaction
+    description: Satellite for kraken transactions
+
   - name: hub_kraken_position
     description: Hub for kraken position for the futures account
     columns:
