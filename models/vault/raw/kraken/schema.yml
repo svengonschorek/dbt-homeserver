@@ -1,0 +1,11 @@
+version: 2
+
+models:
+  - name: hub_kraken_transaction
+    description: Hub for kraken transaction for the futures account
+    columns:
+      - name: pk_kraken_transaction
+        description: Primary key for kraken transaction hub
+        data_tests:
+          - not_null
+          - unique
