@@ -9,3 +9,12 @@ models:
         data_tests:
           - not_null
           - unique
+
+  - name: hub_kraken_position
+    description: Hub for kraken position for the futures account
+    columns:
+      - name: pk_kraken_position
+        description: Primary key for kraken position hub
+        data_tests:
+          - not_null
+          - unique
