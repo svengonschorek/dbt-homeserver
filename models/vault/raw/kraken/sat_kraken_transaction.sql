@@ -1,7 +1,7 @@
 {{
     config(
         materialized = 'table',
-        order_by = 'pk_kraken_transaction'
+        order_by = 'transaction_number'
     )
 }}
 
@@ -19,15 +19,15 @@ final as (
 
     select
         -- keys
-        lower(hex(MD5(concat('kraken_futures_', booking_uid)))) as pk_kraken_transaction,
+        lower(hex(MD5(concat('kraken_futures_', booking_uid)))) as fk_kraken_transaction,
         -- metadata
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,
         -- properties
-        id,
+        id as transaction_number,
         booking_uid,
         execution,
-        fromUTCTimestamp(parseDateTime64BestEffort(date, 3), 'Europe/Berlin') as transaction_at,
+        toTimeZone(fromUTCTimestamp(parseDateTime64BestEffort(date, 3), 'UTC'), 'Europe/Berlin') as transaction_at,
         info,
         asset,
         contract,

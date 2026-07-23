@@ -21,3 +21,6 @@ models:
         data_tests:
           - not_null
           - unique
+
+  - name: sat_kraken_position
+    description: Satellite for kraken positions
