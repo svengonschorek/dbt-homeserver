@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: kraken
+    schema: source
+    tables:
+      - name: kraken_positions
+        description: All kraken positions from the futures account.
+      - name: kraken_transactions
+        description: All kraken transactions from the futures account.
