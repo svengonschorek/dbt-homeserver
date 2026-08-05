@@ -24,3 +24,15 @@ models:
 
   - name: sat_kraken_position
     description: Satellite for kraken positions
+
+  - name: hub_kraken_ticker
+    description: Hub for kraken ticker for the futures account
+    columns:
+      - name: pk_kraken_ticker
+        description: Primary key for kraken ticker hub
+        data_tests:
+          - not_null
+          - unique
+
+  - name: sat_kraken_ticker
+    description: Satellite for kraken ticker
