@@ -8,3 +8,5 @@ sources:
         description: All kraken positions from the futures account.
       - name: kraken_transactions
         description: All kraken transactions from the futures account.
+      - name: kraken_tickers
+        description: All kraken tickers from the futures account.
