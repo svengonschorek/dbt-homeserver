@@ -24,7 +24,7 @@ final as (
         '{{ invocation_id }}' as record_source,
         toDateTime(now(), 'Europe/Berlin') as load_dts,
         -- properties
-        time as ohlc_at,
+        fromUnixTimestamp64Milli(toInt64(time), 'Europe/Berlin') as ohlc_at,
         'PF_EURUSD' as symbol,
         open as open_price,
         high as high_price,
