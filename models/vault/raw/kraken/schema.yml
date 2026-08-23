@@ -36,3 +36,15 @@ models:
 
   - name: sat_kraken_ticker
     description: Satellite for kraken ticker
+  
+  - name: hub_kraken_ohlc
+    description: Hub for kraken ohlc data on a 1 minute interval
+    columns:
+      - name: pk_kraken_ohlc
+        description: Primary key for kraken ohlc hub
+        data_tests:
+          - not_null
+          - unique
+  
+  - name: sat_kraken_ohlc
+    description: Satellite for kraken ohlc data on a 1 minute interval
