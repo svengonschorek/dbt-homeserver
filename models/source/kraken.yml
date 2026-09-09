@@ -10,3 +10,5 @@ sources:
         description: All kraken transactions from the futures account.
       - name: kraken_tickers
         description: All kraken tickers from the futures account.
+      - name: kraken_ohlc_eur_usd
+        description: All kraken ohlc data for the EUR/USD pair on a 1 minute interval.
