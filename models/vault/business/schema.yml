@@ -13,3 +13,11 @@ models:
       Calculation of the PnL per trade on a transaction time level. This is the main PnL calculation 
       model, which uses a FIFO approach to match opens and closes. The PnL is calculated in USDT and
       in EUR. The model also calculates the fee amount per trade.
+  
+  - name: calc_kraken_pnl_per_trade
+    description: |
+      Calculation of the PnL per trade on a transaction time level. The calculation is done on
+      a position level, which means that the PnL is calculated based on the position size and the 
+      price difference between the open and close trades in USD. The PnL is calculated in USD and EUR.
+      No differentiation between EUR/USD at position open and close is made, which means that the PnL 
+      is calculated based on the USD value of the position at the time of closing.
